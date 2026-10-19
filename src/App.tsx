@@ -7,8 +7,19 @@ import ProductCard from './components/ProductCard';
 import ProductDetail from './components/ProductDetail';
 import Cart from './components/Cart';
 import Checkout from './components/Checkout';
+import AboutPage from './components/AboutPage';
+import OurStoryPage from './components/OurStoryPage';
+import BrewingGuidesPage from './components/BrewingGuidesPage';
+import SubscriptionsPage from './components/SubscriptionsPage';
+import InstagramPage from './components/InstagramPage';
+import TwitterPage from './components/TwitterPage';
+import NewsletterPage from './components/NewsletterPage';
+import ContactPage from './components/ContactPage';
+
+type Page = 'home' | 'about' | 'story' | 'brewing' | 'subscriptions' | 'instagram' | 'twitter' | 'newsletter' | 'contact';
 
 export default function App() {
+  const [currentPage, setCurrentPage] = useState<Page>('home');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedRoast, setSelectedRoast] = useState('All');
@@ -17,6 +28,11 @@ export default function App() {
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [addedToast, setAddedToast] = useState<string | null>(null);
+
+  const goHome = () => {
+    setCurrentPage('home');
+    window.scrollTo(0, 0);
+  };
 
   // Filter products
   const filteredProducts = useMemo(() => {
@@ -80,6 +96,17 @@ export default function App() {
     setIsCheckoutOpen(false);
   };
 
+  // Render sub-pages
+  if (currentPage === 'about') return <AboutPage onBack={goHome} />;
+  if (currentPage === 'story') return <OurStoryPage onBack={goHome} />;
+  if (currentPage === 'brewing') return <BrewingGuidesPage onBack={goHome} />;
+  if (currentPage === 'subscriptions') return <SubscriptionsPage onBack={goHome} />;
+  if (currentPage === 'instagram') return <InstagramPage onBack={goHome} />;
+  if (currentPage === 'twitter') return <TwitterPage onBack={goHome} />;
+  if (currentPage === 'newsletter') return <NewsletterPage onBack={goHome} />;
+  if (currentPage === 'contact') return <ContactPage onBack={goHome} />;
+
+  // Main landing page
   return (
     <div className="min-h-screen bg-stone-950 text-amber-50">
       {/* Header */}
@@ -187,19 +214,35 @@ export default function App() {
             <div>
               <h4 className="text-xs uppercase tracking-wider text-amber-500/60 mb-3">Quick Links</h4>
               <ul className="space-y-2 text-sm text-amber-200/50">
-                <li className="hover:text-amber-200/80 cursor-pointer transition-colors">About Us</li>
-                <li className="hover:text-amber-200/80 cursor-pointer transition-colors">Our Story</li>
-                <li className="hover:text-amber-200/80 cursor-pointer transition-colors">Brewing Guides</li>
-                <li className="hover:text-amber-200/80 cursor-pointer transition-colors">Subscriptions</li>
+                <li>
+                  <button onClick={() => setCurrentPage('about')} className="hover:text-amber-200/80 transition-colors cursor-pointer">About Us</button>
+                </li>
+                <li>
+                  <button onClick={() => setCurrentPage('story')} className="hover:text-amber-200/80 transition-colors cursor-pointer">Our Story</button>
+                </li>
+                <li>
+                  <button onClick={() => setCurrentPage('brewing')} className="hover:text-amber-200/80 transition-colors cursor-pointer">Brewing Guides</button>
+                </li>
+                <li>
+                  <button onClick={() => setCurrentPage('subscriptions')} className="hover:text-amber-200/80 transition-colors cursor-pointer">Subscriptions</button>
+                </li>
               </ul>
             </div>
             <div>
               <h4 className="text-xs uppercase tracking-wider text-amber-500/60 mb-3">Connect</h4>
               <ul className="space-y-2 text-sm text-amber-200/50">
-                <li className="hover:text-amber-200/80 cursor-pointer transition-colors">Instagram</li>
-                <li className="hover:text-amber-200/80 cursor-pointer transition-colors">Twitter</li>
-                <li className="hover:text-amber-200/80 cursor-pointer transition-colors">Newsletter</li>
-                <li className="hover:text-amber-200/80 cursor-pointer transition-colors">Contact</li>
+                <li>
+                  <button onClick={() => setCurrentPage('instagram')} className="hover:text-amber-200/80 transition-colors cursor-pointer">Instagram</button>
+                </li>
+                <li>
+                  <button onClick={() => setCurrentPage('twitter')} className="hover:text-amber-200/80 transition-colors cursor-pointer">Twitter</button>
+                </li>
+                <li>
+                  <button onClick={() => setCurrentPage('newsletter')} className="hover:text-amber-200/80 transition-colors cursor-pointer">Newsletter</button>
+                </li>
+                <li>
+                  <button onClick={() => setCurrentPage('contact')} className="hover:text-amber-200/80 transition-colors cursor-pointer">Contact</button>
+                </li>
               </ul>
             </div>
           </div>
